@@ -206,8 +206,10 @@ mySprite = sprites.create(img`
     ........................
     ........................
     `, SpriteKind.Player)
-controller.moveSprite(mySprite)
+mySprite.setPosition(32, 235)
 scene.cameraFollowSprite(mySprite)
+controller.moveSprite(mySprite, 200, 0)
+mySprite.ay = 500
 let enemigo_1 = sprites.create(img`
     8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
     8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
@@ -300,7 +302,6 @@ let moneda_2 = sprites.create(img`
     . . f d d d f . 
     . . . f f f . . 
     `, SpriteKind.moneda)
-mySprite.setPosition(15, 222)
 enemigo_1.setPosition(200, 232)
 enemigo_2.setPosition(656, 232)
 enemigo_3.setPosition(1872, 104)
