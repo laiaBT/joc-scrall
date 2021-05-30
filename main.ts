@@ -4,7 +4,7 @@ namespace SpriteKind {
     export const player_inmune = SpriteKind.create()
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
-    mySprite.vy = -220
+    jugador.vy = -220
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     projectile = sprites.createProjectileFromSide(img`
@@ -31,32 +31,32 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
     otherSprite.destroy(effects.spray, 100)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    info.changeLifeBy(-1)
     sprite.setKind(SpriteKind.player_inmune)
-    sprite.startEffect(effects.disintegrate, 500)
+    info.changeLifeBy(-1)
+    sprite.startEffect(effects.disintegrate)
     music.jumpDown.playUntilDone()
-    sprite.setImage(img`
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        3 3 1 1 1 1 1 3 3 1 1 1 1 1 3 3 
-        3 3 1 1 1 1 1 3 3 1 1 1 1 1 3 3 
-        3 3 f f f 1 1 3 3 f f f 1 1 3 3 
-        3 3 f f f 1 1 3 3 f f f 1 1 3 3 
-        3 3 f f f 1 1 3 3 f f f 1 1 3 3 
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 f f f 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 f f f 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 f f f 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        `)
     sprite.setKind(SpriteKind.Player)
+    sprite.setImage(img`
+        . . . . . . . . . . . . . . 
+        . . . . f f f f f . f f f . 
+        . . . f f c c c c f f f f f 
+        . . f c c c c c c b f f f f 
+        . . f c c c c c c 3 c f f f 
+        . f c c c c c c c c 3 3 f . 
+        . f c c 4 c c c c c f f f . 
+        . f f c 4 4 c c c f f f f . 
+        . f f f 4 4 f b f 4 4 f f . 
+        . . f f d d f 1 4 d 4 f . . 
+        . . . f d d d e e f f f . . 
+        . . . f e 4 e d d 4 f . . . 
+        . . . f 3 3 e d d e f . . . 
+        . . f f 6 6 f e e f f f . . 
+        . . f f f f f f f f f f . . 
+        . . . f f f . . . f f . . . 
+        `)
 })
 let projectile: Sprite = null
-let mySprite: Sprite = null
+let jugador: Sprite = null
 scene.setBackgroundImage(img`
     8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
     8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
@@ -180,7 +180,7 @@ scene.setBackgroundImage(img`
     8888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
     `)
 tiles.setTilemap(tilemap`level1`)
-mySprite = sprites.create(img`
+jugador = sprites.create(img`
     ........................
     ....ffffff..............
     ..ffeeeef2f.............
@@ -206,28 +206,29 @@ mySprite = sprites.create(img`
     ........................
     ........................
     `, SpriteKind.Player)
-mySprite.setPosition(32, 235)
-scene.cameraFollowSprite(mySprite)
-controller.moveSprite(mySprite, 200, 0)
-mySprite.ay = 500
+jugador.setPosition(32, 235)
+scene.cameraFollowSprite(jugador)
+controller.moveSprite(jugador, 200, 0)
+jugador.ay = 500
 let enemigo_1 = sprites.create(img`
-    8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-    8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-    8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-    8 8 1 1 1 1 1 8 8 1 1 1 1 1 8 8 
-    8 8 1 1 1 1 1 8 8 1 1 1 1 1 8 8 
-    8 8 f f f 1 1 8 8 f f f 1 1 8 8 
-    8 8 f f f 1 1 8 8 f f f 1 1 8 8 
-    8 8 f f f 1 1 8 8 f f f 1 1 8 8 
-    8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-    8 8 8 f f f f f 8 8 8 8 8 8 8 8 
-    8 8 8 f f f f f 8 8 8 8 8 8 8 8 
-    8 8 8 f f f f f 8 8 8 8 8 8 8 8 
-    8 8 8 f f f f f 8 8 8 8 8 8 8 8 
-    8 8 8 f f f f f 8 8 8 8 8 8 8 8 
-    8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
-    8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+    7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+    7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+    7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+    7 7 1 1 1 1 1 7 7 1 1 1 1 1 7 7 
+    7 7 1 1 1 1 1 7 7 1 1 1 1 1 7 7 
+    7 7 f f f 1 1 7 7 f f f 1 1 7 7 
+    7 7 f f f 1 1 7 7 f f f 1 1 7 7 
+    7 7 f f f 1 1 7 7 f f f 1 1 7 7 
+    7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+    7 7 7 f f f f f 7 7 7 7 7 7 7 7 
+    7 7 7 f f f f f 7 7 7 7 7 7 7 7 
+    7 7 7 f f f f f 7 7 7 7 7 7 7 7 
+    7 7 7 f f f f f 7 7 7 7 7 7 7 7 
+    7 7 7 f f f f f 7 7 7 7 7 7 7 7 
+    7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
+    7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
     `, SpriteKind.Enemy)
+enemigo_1.setPosition(160, 232)
 let enemigo_2 = sprites.create(img`
     2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
     2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
@@ -302,9 +303,9 @@ let moneda_2 = sprites.create(img`
     . . f d d d f . 
     . . . f f f . . 
     `, SpriteKind.moneda)
-enemigo_1.setPosition(200, 232)
 enemigo_2.setPosition(656, 232)
 enemigo_3.setPosition(1872, 104)
 meta.setPosition(1872, 104)
 moneda.setPosition(720, 52)
 moneda_2.setPosition(976, 52)
+info.setLife(3)
