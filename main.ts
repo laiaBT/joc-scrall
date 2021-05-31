@@ -2,6 +2,7 @@ namespace SpriteKind {
     export const meta = SpriteKind.create()
     export const moneda = SpriteKind.create()
     export const player_inmune = SpriteKind.create()
+    export const Meta1 = SpriteKind.create()
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     jugador.vy = -220
@@ -30,10 +31,16 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava0, function (sp
     jugador.setPosition(32, 235)
     info.changeLifeBy(-1)
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.moneda, function (sprite, otherSprite) {
+    otherSprite.destroy()
+    info.changeScoreBy(1)
+    music.baDing.play()
+})
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprite.destroy()
     otherSprite.destroy(effects.confetti, 100)
-    music.powerDown.play()
+    music.baDing.play()
+    info.changeScoreBy(1)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprite.setKind(SpriteKind.player_inmune)
@@ -298,6 +305,7 @@ let moneda = sprites.create(img`
     . . f d d d f . 
     . . . f f f . . 
     `, SpriteKind.moneda)
+moneda.setPosition(280, 208)
 let moneda_2 = sprites.create(img`
     . . . b b b . . 
     . . b 5 5 5 b . 
@@ -308,9 +316,13 @@ let moneda_2 = sprites.create(img`
     . . f d d d f . 
     . . . f f f . . 
     `, SpriteKind.moneda)
+moneda_2.setPosition(800, 200)
 enemigo_2.setPosition(656, 232)
 enemigo_3.setPosition(1872, 104)
 meta.setPosition(1872, 104)
-moneda.setPosition(720, 52)
-moneda_2.setPosition(976, 52)
+let meta_1 = sprites.create(img`
+    8 
+    `, SpriteKind.Meta1)
+meta_1.setPosition(1592, -232)
 info.setLife(3)
+info.setScore(0)
