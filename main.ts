@@ -3,6 +3,11 @@ namespace SpriteKind {
     export const moneda = SpriteKind.create()
     export const player_inmune = SpriteKind.create()
     export const Meta1 = SpriteKind.create()
+    export const cartell1 = SpriteKind.create()
+    export const cartel_inservible = SpriteKind.create()
+    export const cartell2 = SpriteKind.create()
+    export const cartell_Inservible = SpriteKind.create()
+    export const cartell3 = SpriteKind.create()
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     jugador.vy = -220
@@ -31,6 +36,10 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.hazardLava0, function (sp
     jugador.setPosition(32, 235)
     info.changeLifeBy(-1)
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.cartell1, function (sprite, otherSprite) {
+    cartell_1.setKind(SpriteKind.cartell_Inservible)
+    game.showLongText("Col.lecciona les monedes per acumular punts", DialogLayout.Bottom)
+})
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.chestClosed, function (sprite, location) {
     game.over(true)
 })
@@ -43,6 +52,27 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Meta1, function (sprite, otherSp
     moneda.destroy()
     moneda_2.destroy()
     meta_1.destroy()
+    cartell_1.destroy()
+    cartell2.destroy()
+    cartell3 = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        e e e e e e e e e e e e e e e e 
+        e e e e e e e e e e e e e e e e 
+        e e f e e e e e f f f f e e f f 
+        e e e e e f e e e e e e e e e e 
+        e e e e e e e e e e e e e e e e 
+        e e f f f f e e e f f f f f f f 
+        e e e e e e e e e e e e e e e e 
+        e e e f e f f f e f f f f f e e 
+        e e e e e e e e e e e e e e e e 
+        . . . . . . . e e . . . . . . . 
+        . . . . . . . e e . . . . . . . 
+        . . . . . . . e e . . . . . . . 
+        . . . . . . . e e . . . . . . . 
+        `, SpriteKind.cartell3)
+    cartell3.setPosition(256, 232)
     enemigo_1 = sprites.create(img`
         7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
         7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
@@ -109,11 +139,19 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.moneda, function (sprite, otherS
     info.changeScoreBy(1)
     music.baDing.play()
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.cartell2, function (sprite, otherSprite) {
+    cartell2.setKind(SpriteKind.cartell_Inservible)
+    game.showLongText("Ves en cuidado que la lava crema i tornaràs al principi!", DialogLayout.Bottom)
+})
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprite.destroy()
     otherSprite.destroy(effects.confetti, 100)
     music.baDing.play()
     info.changeScoreBy(1)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.cartell3, function (sprite, otherSprite) {
+    cartell3.setKind(SpriteKind.cartell_Inservible)
+    game.showLongText("busca un tresor i guanyaràs la partida", DialogLayout.Bottom)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     sprite.setKind(SpriteKind.player_inmune)
@@ -140,7 +178,10 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
         . . . f f f . . . f f . . . 
         `)
 })
+let cartell3: Sprite = null
 let projectile: Sprite = null
+let cartell2: Sprite = null
+let cartell_1: Sprite = null
 let meta_1: Sprite = null
 let moneda_2: Sprite = null
 let moneda: Sprite = null
@@ -367,7 +408,7 @@ moneda = sprites.create(img`
     . . f d d d f . 
     . . . f f f . . 
     `, SpriteKind.moneda)
-moneda.setPosition(280, 208)
+moneda.setPosition(1200, 208)
 moneda_2 = sprites.create(img`
     . . . b b b . . 
     . . b 5 5 5 b . 
@@ -398,5 +439,44 @@ meta_1 = sprites.create(img`
     . . . . . . f . . . . . . . . . 
     `, SpriteKind.Meta1)
 meta_1.setPosition(1576, 232)
+cartell_1 = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    e e e e e e e e e e e e e e e e 
+    e e e e e e e e e e e e e e e e 
+    e e f e e e e e f f f f e e f f 
+    e e e e e f e e e e e e e e e e 
+    e e e e e e e e e e e e e e e e 
+    e e f f f f e e e f f f f f f f 
+    e e e e e e e e e e e e e e e e 
+    e e e f e f f f e f f f f f e e 
+    e e e e e e e e e e e e e e e e 
+    . . . . . . . e e . . . . . . . 
+    . . . . . . . e e . . . . . . . 
+    . . . . . . . e e . . . . . . . 
+    . . . . . . . e e . . . . . . . 
+    `, SpriteKind.cartell1)
+cartell_1.setPosition(672, 232)
+cartell2 = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    e e e e e e e e e e e e e e e e 
+    e e e e e e e e e e e e e e e e 
+    e e f e e e e e f f f f e e f f 
+    e e e e e f e e e e e e e e e e 
+    e e e e e e e e e e e e e e e e 
+    e e f f f f e e e f f f f f f f 
+    e e e e e e e e e e e e e e e e 
+    e e e f e f f f e f f f f f e e 
+    e e e e e e e e e e e e e e e e 
+    . . . . . . . e e . . . . . . . 
+    . . . . . . . e e . . . . . . . 
+    . . . . . . . e e . . . . . . . 
+    . . . . . . . e e . . . . . . . 
+    `, SpriteKind.cartell2)
+cartell2.setPosition(256, 232)
 info.setLife(3)
 info.setScore(0)
+game.showLongText("Utilitza els cursors per moure't i el A per disparar els enemics", DialogLayout.Bottom)
