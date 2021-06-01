@@ -8,6 +8,7 @@ namespace SpriteKind {
     export const cartell2 = SpriteKind.create()
     export const cartell_Inservible = SpriteKind.create()
     export const cartell3 = SpriteKind.create()
+    export const metafinal = SpriteKind.create()
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     jugador.vy = -220
@@ -41,7 +42,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.cartell1, function (sprite, othe
     game.showLongText("Col.lecciona les monedes per acumular punts", DialogLayout.Bottom)
 })
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.chestClosed, function (sprite, location) {
-    game.over(true)
+    game.over(true, effects.hearts)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Meta1, function (sprite, otherSprite) {
     tiles.setTilemap(tilemap`level4`)
